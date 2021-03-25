@@ -1,0 +1,118 @@
+#nav {
+  height: 100%;
+  min-width: 200px;
+  min-height: 100%;
+}
+#nav .line-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#nav .el-menu {
+  color: #fff;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+}
+#nav .el-menu i,
+#nav .el-menu span {
+  color: #fff;
+}
+#nav .el-menu img {
+  width: 18px;
+  margin-right: 10px;
+}
+#nav .el-menu .phone {
+  width: 14px;
+  margin-right: 14px;
+}
+#nav .el-menu .el-submenu__title:focus,
+#nav .el-menu .el-submenu__title:hover,
+#nav .el-menu .el-menu-item:focus,
+#nav .el-menu .el-menu-item:hover,
+#nav .el-menu .el-menu-item.is-active {
+  background-color: #01457e;
+  opacity: 0.6;
+}
+#nav .wrap {
+  z-index: 999;
+  width: 200px;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-size: cover;
+}
+#nav .tag-info .user {
+  padding: 20px;
+  color: #fff;
+  text-align: left;
+}
+#nav .tag-info .user .mainto-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#nav .tag-info .user .text {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+#nav .tag-info .user .info {
+  position: relative;
+  margin-top: 25px;
+  font-size: 16px;
+  text-align: left;
+}
+#nav .tag-info .user .info .name {
+  display: inline-block;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-right: 1px solid #fff;
+}
+#nav .tag-info .user .info i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+#nav.dev-nav .el-submenu__title:focus,
+#nav.dev-nav .el-submenu__title:hover,
+#nav.dev-nav .el-menu-item:focus,
+#nav.dev-nav .el-menu-item:hover,
+#nav.dev-nav .el-menu-item.is-active {
+  background-color: #01a5ce;
+  opacity: 0.6;
+}
+#nav.dev-nav .wrap {
+  background: linear-gradient(to top, #01a5ce, #75c9fa);
+}
+#nav.ops-nav .el-submenu__title:focus,
+#nav.ops-nav .el-submenu__title:hover,
+#nav.ops-nav .el-menu-item:focus,
+#nav.ops-nav .el-menu-item:hover,
+#nav.ops-nav .el-menu-item.is-active {
+  background-color: #00b61e;
+  opacity: 0.6;
+}
+#nav.ops-nav .wrap {
+  background: linear-gradient(to top, #00b61e, #00b61e);
+}
+#nav.interim-nav .el-submenu__title:focus,
+#nav.interim-nav .el-submenu__title:hover,
+#nav.interim-nav .el-menu-item:focus,
+#nav.interim-nav .el-menu-item:hover,
+#nav.interim-nav .el-menu-item.is-active {
+  background-color: #49377c;
+  opacity: 0.6;
+}
+#nav.interim-nav .wrap {
+  background: linear-gradient(to top, #654ea3, #eaafc8);
+}

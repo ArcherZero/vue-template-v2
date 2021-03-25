@@ -1,0 +1,361 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+}
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+img {
+  display: inline-block;
+}
+
+
+/* custom style */
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.mt-50 {
+  margin-top: 50px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.ml-10 {
+  margin-left: 10px !important;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.mr-5 {
+  margin-right: 10px !important;
+}
+
+.mr-10 {
+  margin-right: 10px !important;
+}
+
+.mr-20 {
+  margin-right: 20px !important;
+}
+
+.pl-10 {
+  padding-left: 10px !important;
+}
+
+.pl-20 {
+  padding-left: 20px !important;
+}
+
+.pr-10 {
+  padding-right: 10px !important;
+}
+
+.pr-20 {
+  padding-right: 20px !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.clearfix::before,
+.clearfix::after {
+  display: table;
+  content: " ";
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.el-form-item .inp-short {
+  width: 200px;
+}
+
+.el-form-item .inp-long {
+  width: 500px;
+}
+
+.upload-wrap {
+  img {
+    max-width: 320px;
+  }
+}
+
+.retail-input-empty {
+  input {
+    border-color: #f56c6c !important;
+  }
+}
+
+.bordernone {
+  border: none !important;
+}
+
+.el-table .cell,
+.el-link {
+  font-family: PingFangSC-Regular, PingFang SC, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.el-button--primary-dark {
+  height: 40px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #0b6ab9;
+  border: none;
+}
+
+.el-button--primary-dark:hover {
+  color: #fff;
+  background-color: #1378cd;
+}
+
+.el-button--primary-dark:focus {
+  color: #fff;
+  background: #3c88c7;
+  border-color: #3c88c7;
+}
+
+.el-card {
+  margin-top: 15px;
+}
+
+.el-form-item--mini .el-form-item__label {
+  line-height: 40px;
+}
+
+.el-input--mini .el-input__inner {
+  height: 40px;
+}
+
+.el-button--seach {
+  color: #0b6ab9;
+  border: 1px solid rgba(11, 106, 185, 1);
+}
+
+.el-button--seach:hover {
+  color: #0b6ab9;
+  border: 1px solid rgba(11, 106, 185, 1);
+}
+
+.el-radio-group .el-radio {
+  line-height: 40px;
+}
+
+.el-steps--simple {
+  padding: 0 20%;
+  background-color: transparent;
+}
+
+.el-table__header thead tr th {
+  height: 50px;
+  font-weight: 500;
+  color: #333;
+  background-color: rgba(235, 238, 245, 0.5);
+}
+
+.el-card__header {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgb(48, 49, 51);
+}
+
+.el-card.is-always-shadow {
+  box-shadow: none;
+}
+
+.el-textarea .el-input__count {
+  bottom: -24px;
+  background: transparent;
+}
+
+.el-input .el-input__count-inner {
+  position: absolute;
+  right: 0;
+  bottom: -16px;
+  word-break: keep-all;
+  background-color: transparent !important;
+}
+
+.pagination-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.el-select-dropdown__list {
+  max-width: 600px;
+}
