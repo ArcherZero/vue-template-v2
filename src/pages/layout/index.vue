@@ -5,10 +5,30 @@
     </el-aside>
     <el-container>
       <el-header class="header">
-        <div class="icon-wrapper" @click="isHide = !isHide">
+        <!-- 不需要收起菜单则注释下方节点 -->
+        <!-- <div class="icon-wrapper" @click="isHide = !isHide">
           <el-icon :class="isHide ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></el-icon>
-        </div>
-        <div>
+        </div> -->
+        <el-breadcrumb separator="/">
+          <template v-for="item in breadList">
+            <el-breadcrumb-item
+              v-if="item.path && item.path !== path"
+              class="bread-font pointer"
+              :key="item.path"
+              :to="{ path: item.path }"
+            >
+              {{item.title}}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item
+              v-else
+              class="bread-font"
+              :key="item.title"
+            >
+              {{item.title}}
+            </el-breadcrumb-item>
+          </template>
+        </el-breadcrumb>
+        <div class="user">
           <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px;"></i>
             <el-dropdown-menu slot="dropdown">
@@ -21,15 +41,12 @@
         </div>
       </el-header>
 
-      <el-breadcrumb class="breadcrumb" separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-      </el-breadcrumb>
 
-      <el-main class="main-wrap" style="padding: 0;">
-        <router-view class="content" />
+
+      <el-main class="main-wrap">
+        <div class="page-wrap" v-loading="loading">
+          <router-view class="content" />
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -37,6 +54,7 @@
 
 <script>
 import Navgation from '@/components/Navigation/index.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -46,6 +64,12 @@ export default {
     return {
       isHide: false
     }
+  },
+  computed: {
+    ...mapGetters(['loading']),
+    breadList () {
+      return this.$route.meta.breadcrumb
+    },
   }
 }
 </script>
@@ -64,12 +88,18 @@ export default {
   justify-content: space-between;
   background-color: rgb(240, 242, 245);
   box-shadow: 0 5px 5px rgb(211, 211, 211);
+
+  .user {
+    flex: 1;
+    text-align: right;
+  }
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   height: 60px;
+  min-height: 60px;
   padding-left: 20px;
   background-color: rgb(240, 242, 245);
 }
@@ -93,6 +123,12 @@ export default {
 .el-main {
   padding: 10px;
   background: #ddd;
+}
+
+.page-wrap {
+  min-height: 100%;
+  padding: 20px;
+  background: #fff;
 }
 
 .content {

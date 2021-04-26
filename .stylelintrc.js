@@ -5,6 +5,12 @@ module.exports = {
   ],
   "rules": {
     // 禁止使用可以缩写却不缩写的属性
-    "declaration-block-no-redundant-longhand-properties": true
+    "declaration-block-no-redundant-longhand-properties": true,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["v-deep"]
+      }
+    ]
   }
 }

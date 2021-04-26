@@ -1,7 +1,8 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from "vue"
+import VueRouter from "vue-router"
 import Layout from '@/pages/layout'
-import Home from "../pages/Home.vue";
+import store from '@/store'
+import template from './modules/template'
 
 Vue.use(VueRouter);
 
@@ -10,26 +11,47 @@ const routes = [
     path: '/',
     component: Layout,
     children: [
-      {
-        path: "/",
-        name: "Home",
-        component: Home,
-      },
-      {
-        path: "/about",
-        name: "About",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../pages/About.vue"),
-      },
+      ...template
     ]
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import( "../pages/Login.vue"),
+    meta: {
+      title: '登录'
+    }
   }
 ]
 
 const router = new VueRouter({
+  // 返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样：
+  scrollBehavior(to, from, savePosition) {
+    if (savePosition) {
+      return savePosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  },
   routes,
-});
+})
+
+router.beforeEach((to, from, next) => {
+  const token = store.state.userInfo.userToken
+  const pathname = to.path.split('/')[1]
+  if (token) {
+    next()
+  } else {
+    if (pathname === 'login') {
+      next()
+    } else {
+      router.push('/login')
+    }
+  }
+
+})
 
 export default router;

@@ -1,24 +1,9 @@
 # vue-template-v2
 
-## Project setup
-```
-yarn install
-```
+## 关于登录
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+新系统的client_id、client_secret、grant_type需要在src/api/common.js中设置
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## 菜单
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+开发阶段菜单可在src/components/Navigation/config中配置，开发完成后可根据config在jeecp中配置

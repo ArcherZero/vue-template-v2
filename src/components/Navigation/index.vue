@@ -1,14 +1,8 @@
 <template>
   <el-row id="nav">
     <div class="app-name">
-      交通运输车保姆码
+      项目名称
     </div>
-    <!-- <div class="logo-wrap">
-      <img :src="navLogo" alt="">
-    </div>
-    <div class="user-wrap">
-      <div class="name">{{userName}}</div>
-    </div> -->
     <el-col :span="24" class="wrap" id="navContentWrap">
       <div class="tag-info">
         <el-menu
@@ -21,7 +15,7 @@
           :collapse="isHide"
         >
           <nav-submenu
-            v-for="(item, index) in navgations"
+            v-for="(item, index) in menu"
             :key="index"
             :submenu="item"
           />
@@ -32,9 +26,8 @@
 </template>
 
 <script>
-import navgations from './config.js'
 import NavSubmenu from './NavSubmenu'
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'navigation',
@@ -44,12 +37,11 @@ export default {
   data () {
     return {
       defaultActive: '/',
-      navgations: navgations,
       navLogo: ''
     }
   },
   computed: {
-    // ...mapGetters(['userInfo']),
+    ...mapGetters(['menu']),
     userName () {
       return ''
     }
@@ -61,26 +53,6 @@ export default {
     $route (to, from) {
       this.defaultActive = this.$route.path
     }
-  },
-  methods: {
-    // 筛选出有权限访问的导航项。。。。。。。
-    filterNavgations (navgations) {
-      return navgations.filter((item, index) => {
-        if (item.children) {
-          item.children = this.filterNavgations(item.children)
-          if (!item.children.length) return false
-        }
-        if (!item.auth || !item.auth.length) return true
-        const state = this.permissions.base_auth.some(per => {
-          return item.auth.indexOf(per.name) > -1
-        })
-        return state
-      })
-    }
-  },
-  created () {
-    this.navgations = [...this.filterNavgations(this.navgations)]
-    this.defaultActive = this.$route.path
   }
 }
 </script>

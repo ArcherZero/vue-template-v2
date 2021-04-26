@@ -1,20 +1,20 @@
 <template>
-  <el-submenu v-if="submenu.children" :index='submenu.index'>
+  <el-submenu v-if="submenu.subMenus" :index='submenu.id'>
     <template slot="title">
       <div class="line-box">
-        <img v-if="submenu.icon" :src="submenu.icon">
-        <span>{{ submenu.title }}</span>
+        <i v-if="submenu.css" :class="['iconfont', 'mr-10', submenu.css]"></i>
+        <span>{{ submenu.name }}</span>
       </div>
     </template>
     <nav-submenu
-      v-for="(item, index) in submenu.children"
+      v-for="(item, index) in submenu.subMenus"
       :key="index"
       :submenu="item"
     />
   </el-submenu>
   <el-menu-item v-else :index="submenu.index">
-    <img :src="submenu.icon" alt="" v-if="iconShow && submenu.icon">
-    {{ submenu.title }}
+    <i v-if="submenu.css" :class="['iconfont', 'mr-10', submenu.css]"></i>
+    {{ submenu.name }}
   </el-menu-item>
 </template>
 

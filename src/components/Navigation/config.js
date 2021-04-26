@@ -2,18 +2,13 @@ import logo from '@/assets/logo.png'
 
 export default [
   {
-    index: '/',
+    index: '/template',
     icon: logo,
-    title: '首页'
-  },
-  {
-    index: '/contract',
-    icon: logo,
-    title: '出租车管理',
+    title: '模板',
     children: [
       {
-        index: '/contract/list',
-        title: '合同列表'
+        index: '/template/list',
+        title: '模板列表'
       }
     ]
   }

@@ -1,87 +1,97 @@
 import axios from 'axios'
-import store from '../store'
-import ApiResponse from '@/model/ApiResponse.class'
-import ApiError from '@/model/ApiError.class'
+import store from '@/store'
+import router from "@/router"
 import { Message } from 'element-ui'
-import { removeSession } from '@/store/storage'
-import vue from '../main'
-import { ErrorDialog } from '@mainto-ui-component/vue'
+import ApiResponse from '@/model/ApiResponse.class'
 
 // axios 配置
 axios.defaults.timeout = 100000
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.baseURL = process.env.VUE_APP_API_HOST
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 axios.defaults.withCredentials = false
 
 // 对响应数据进行处理
-axios.interceptors.response.use(function (response) {
-  const res = new ApiResponse(response)
+axios.interceptors.response.use(
+  response => {
+    const res = new ApiResponse(response)
+    setTimeout(() => {
+      store.commit('SET_LOADING', false)
+    }, 200)
 
-  if (res.success) {
-    // 目前接口返回200，则必定有 msg，所以暂不考虑返回200，success=false 情况
-    if (res.msg === 0) return res.msg
-    return res.msg || true
-  } else {
-    // 因又拍云图片上传需要，不包含msg字段，故全部返回
-    return res
+    try {
+      const code = response.status
+      // 请求成功返回response.data
+      if (code >= 200 && code < 300) {
+        return res.data
+      } else {
+        return false
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  error => {
+    let userInfo = store.state.userToken.userInfo
+    setTimeout(() => {
+      store.commit('SET_LOADING', false)
+    }, 200)
+    if (error.response?.data?.message) {
+      Message.error(error.response.data.message)
+    }
+    if (error.response) {
+      switch (error.response.status) {
+      case 404:
+        Message.error(error.response.data.msg)
+        break
+      case 401:
+        if (error.response.data.msg === 'Invalid access token: ' + userInfo.access_token) {
+          router.push("/login")
+          window.localStorage.clear()
+          window.sessionStorage.clear()
+          Message.error("权限已过期请重新登录")
+          store.state.userInfo.userInfo = null
+        }
+        break
+      case 500:
+        if (!error.response?.data?.message) {
+          Message.error('接口参数错误')
+        }
+      default:
+        Message.error(error.response.data.msg)
+      }
+    }
+    return Promise.reject(error)
   }
-}, function (error) {
-  let message = error.message
-  let code = 0
-  const traceId = error.response?.data?.trace_id || '未获取到TranceId'
-  const url = error.config?.url || '未获取到接口地址'
-  if (error.response && error.response.data) {
-    const resError = error.response.data
-    message = resError.error_msg
-    code = resError.error_code
-  }
-  if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
-    Message.warning('网络请求超时')
-  }
-  const err = new ApiError(message, code)
-
-  // 4011 未登录或登录状态失效
-  // 如果是16进制映射的错误码，则只需要展示错误信息即可，不需要复制TraceId
-  const COMMON_ERROR_CODE = [400, 404, 422, 500]
-  if (err.matched && !COMMON_ERROR_CODE.includes(err.code)) {
-    // 需要排除不统一处理的报错 [, 换一单]
-    const excludeErrCode = [54072971265, 60414758916]
-    !excludeErrCode.includes(+err.code) && Message.warning(err.message)
-  } else {
-    /* eslint-disable-next-line */
-    ErrorDialog({
-      traceId,
-      url,
-      errorMessage: err.message,
-      errorContent: error.message
-    })
-  }
-
-  switch (err.code) {
-  case 4011:
-    removeSession()
-    vue.$router.replace({ name: 'login', query: { type: 'logout' } })
-    return false
-  }
-  return Promise.reject(err)
-})
+)
 
 // 设置请求头信息
 axios.interceptors.request.use(
   config => {
-    // 如果请求头里面带有 no-x-stream-id 则不传 x-stream-id
-    const noXStreamId = config.headers.noXStreamId || false
-    const newConfig = { ...config }
-    noXStreamId && delete newConfig.headers.noXStreamId
-
-    const streamId = store.getters.streamId
-    if (streamId && streamId !== 'undefined' && !noXStreamId) {
-      newConfig.headers['x-stream-id'] = streamId
+    store.commit('SET_LOADING', true)
+    const token = store.getters.token
+    if (config.url === '/api-auth/oauth/token') {
+      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     }
-    return newConfig
+
+    if (token) {
+      config.headers.Authorization = 'Bearer ' + token
+    }
+
+    return config
   },
   error => {
     return Promise.reject(error)
   }
 )
-export default axios
+
+export default {
+  async get (url, params) {
+    return axios.get(url, { params })
+  },
+  async post (url, params) {
+    return axios.post(url, params)
+  },
+  async delete (url, params) {
+    return axios.delete(url, params)
+  }
+}
