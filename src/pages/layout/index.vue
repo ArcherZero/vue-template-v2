@@ -30,18 +30,13 @@
         </el-breadcrumb>
         <div class="user">
           <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px;"></i>
+            <span><i class="el-icon-setting" style="margin-right: 15px;"></i>王小虎</span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>王小虎</span>
         </div>
       </el-header>
-
-
 
       <el-main class="main-wrap">
         <div class="page-wrap" v-loading="loading">
@@ -54,6 +49,7 @@
 
 <script>
 import Navgation from '@/components/Navigation/index.vue'
+import * as CommonAction from '@/api/common'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -66,10 +62,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(['loading', 'token']),
     breadList () {
       return this.$route.meta.breadcrumb
-    },
+    }
+  },
+  methods: {
+    logout () {
+      this.$confirm('是否确定退出登录？', '提示').then(async () => {
+        const res = await CommonAction.logout({ access_token: this.token })
+        if (res) {
+          this.$router.replace('/login')
+        }
+      })
+    }
   }
 }
 </script>

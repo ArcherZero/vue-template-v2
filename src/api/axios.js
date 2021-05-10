@@ -31,20 +31,17 @@ axios.interceptors.response.use(
     }
   },
   error => {
-    let userInfo = store.state.userToken.userInfo
     setTimeout(() => {
       store.commit('SET_LOADING', false)
     }, 200)
-    if (error.response?.data?.message) {
-      Message.error(error.response.data.message)
-    }
+
     if (error.response) {
       switch (error.response.status) {
       case 404:
         Message.error(error.response.data.msg)
         break
       case 401:
-        if (error.response.data.msg === 'Invalid access token: ' + userInfo.access_token) {
+        if (!location.hash.includes('login')) {
           router.push("/login")
           window.localStorage.clear()
           window.sessionStorage.clear()
@@ -53,11 +50,14 @@ axios.interceptors.response.use(
         }
         break
       case 500:
-        if (!error.response?.data?.message) {
+        if (!error.response?.data?.msg && !error.response?.data?.message) {
           Message.error('接口参数错误')
         }
+        break
       default:
-        Message.error(error.response.data.msg)
+        if (error.response?.data?.msg || error.response?.data?.message) {
+          Message.error(error.response.data.msg || error.response?.data?.message)
+        }
       }
     }
     return Promise.reject(error)
@@ -69,10 +69,15 @@ axios.interceptors.request.use(
   config => {
     store.commit('SET_LOADING', true)
     const token = store.getters.token
+    // 登录接口传参数据格式不同
     if (config.url === '/api-auth/oauth/token') {
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     }
 
+    // 上传接口传参数据格式不同
+    if (config.url === '/api-taxi/bridge/batchImport') {
+      config.headers['Content-Type'] = 'multipart/form-data'
+    }
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }

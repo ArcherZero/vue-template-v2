@@ -5,11 +5,16 @@ import qs from 'qs'
 export function token (data) {
   const param =qs.stringify({
     ...data,
-    client_id: "evm-equipment",
-    client_secret: "evm-equipment",
+    client_id: "webApp",
+    client_secret: "webApp",
     grant_type: "password"
   })
   return axios.post('/api-auth/oauth/token', param)
+}
+
+// 退出登录
+export function logout (data) {
+  return axios.post('/api-auth/oauth/remove/token', data)
 }
 
 export function userInfo (data) {

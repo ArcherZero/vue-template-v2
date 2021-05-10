@@ -11,15 +11,18 @@
 class ApiResponse {
   constructor (response) {
     this.response = response.data
-    this.code = response.code || 0 // 接口原返回 response
-    this.message = null // 处理完的最终数据
+    this.code = response.data?.code || 0
+    this.message = null
     this.data = null
-    this.__handleResponse(response)
+    this.__handleResponse()
   }
 
-  __handleResponse (response) {
-    if (response.code === 0 || response.code) {
-      this.data = this.response.data
+  __handleResponse () {
+
+    // 部分接口不以标准结构返回 统一成标准结构
+    if (+this.response.code === 0 || this.response.code) {
+      // getUserInfo 接口返回有code字段但是没有data字段
+      this.data = this.response.data || this.response
       this.message = this.response.message
     } else {
       this.data = this.response
