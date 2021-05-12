@@ -1,7 +1,6 @@
 <template>
   <div class="logoPage" v-loading="loading">
-    <div class="bg_container">
-    </div>
+    <div class="bg_container"></div>
     <div class="w-content">
       <h3 class="w-c-title">项目名称</h3>
       <div class="w-c-form">
@@ -9,13 +8,25 @@
         <el-form label-width="10px" label-position="left">
           <div class="w-l-c-box">
             <i class="w-l-c-b-ico logo_user"></i>
-            <input type="text" class="usename" v-model="userName"  placeholder="请输入账号">
+            <input
+              type="text"
+              class="usename"
+              v-model="userName"
+              placeholder="请输入账号"
+            />
           </div>
           <div class="w-l-c-box">
             <i class="w-l-c-b-ico log_pwd"></i>
-            <input type="password" class="password" v-model="passWord" placeholder="请输入密码">
+            <input
+              type="password"
+              class="password"
+              v-model="passWord"
+              placeholder="请输入密码"
+            />
           </div>
-          <el-button class="logo_btn" type="primary" @click="login">登录</el-button>
+          <el-button class="logo_btn" type="primary" @click="login"
+            >登录</el-button
+          >
           <div class="error-msg">
             <!--请输入密码-->
           </div>
@@ -103,7 +114,7 @@ export default {
     }),
     ...mapGetters(["loading"]),
   },
-  mounted () {
+  mounted() {
     this.$store.commit("SET_LOADING", false);
     try {
       if (this.myChecked) {
@@ -132,6 +143,8 @@ export default {
       "setUserInfoObj",
       "setMenu",
       "setdeptInfo",
+      "setDefaultActive",
+      "setActivePath",
     ]),
     // 记住密码
     keepWord() {
@@ -145,28 +158,28 @@ export default {
     // 发送验证码
     sendcode() {
       if (!this.ruleForm.phone) {
-        this.$message.warning("请输入手机号码")
-        return false
+        this.$message.warning("请输入手机号码");
+        return false;
       }
-      let time = 60
-      this.ifsend = true
+      let time = 60;
+      this.ifsend = true;
       let settime = setInterval(() => {
-        this.sendtxt = "(" + time + ")s"
+        this.sendtxt = "(" + time + ")s";
         if (time <= 0) {
-          this.ifsend = false
-          this.sendtxt = "重新发送"
-          clearInterval(settime)
+          this.ifsend = false;
+          this.sendtxt = "重新发送";
+          clearInterval(settime);
         }
-        time--
-      }, 1000) // 每隔多久后执行一次
+        time--;
+      }, 1000); // 每隔多久后执行一次
     },
     // 重置密码
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.dialogFormVisible = false
+          this.dialogFormVisible = false;
         } else {
-          return false
+          return false;
         }
       });
     },
@@ -179,47 +192,60 @@ export default {
         password: encryptByDES(this.passWord),
         username: this.userName,
       };
-      const res = await CommonAction.token(param)
+      const res = await CommonAction.token(param);
       if (!res.access_token) {
-        this.$message.error("token获取失败")
-        return
+        this.$message.error("token获取失败");
+        return;
       }
       this.setUserToken(res);
       this.getUserInfo();
     },
     async forget() {
-      this.dialogFormVisible = true
+      this.dialogFormVisible = true;
     },
     // 获取用户信息
     async getUserInfo() {
-      const userInfo = await CommonAction.userInfo()
-      this.setUserInfoObj(userInfo)
+      const userInfo = await CommonAction.userInfo();
+      this.setUserInfoObj(userInfo);
       // const role = userInfo.user.sysRoles[0].code
-      this.getmenuInfo()
+      this.getmenuInfo();
     },
     async getconfiguration(id) {
       try {
-        const res = await CommonAction.selectAll({ orgId: id })
-        this.setdeptInfo(res.data)
-        this.getmenuInfo()
+        const res = await CommonAction.selectAll({ orgId: id });
+        this.setdeptInfo(res.data);
+        this.getmenuInfo();
       } catch (e) {
-        this.$message.error("获取系统信息失败")
+        this.$message.error("获取系统信息失败");
       }
     },
     async getmenuInfo() {
-      const menu = await CommonAction.menu()
-      if (!menu.length) return this.$message.warning('该账号暂无菜单权限')
-      this.setMenu(menu) // 存储菜单数据
-      this.$router.push(menu[0].subMenus[0].url)
+      const menu = await CommonAction.menu();
+      console.log(menu);
+
+      if (!menu.length) return this.$message.warning("该账号暂无菜单权限");
+      this.setMenu(menu[0].subMenus); // 存储菜单数据
+      let defaultpath = this.getdefaultroute(menu[0].subMenus);
+      this.$router.push(defaultpath[defaultpath.length - 1]); // 跳转到默认菜单
+      this.setDefaultActive(defaultpath[defaultpath.length - 1]); // 存储到默认选择的菜单
+      this.setActivePath(defaultpath); // 存储到默认选择的菜单及其父项
     },
     creatEle(msg) {
-      let errorMsg = document.getElementsByClassName("error-msg")[0]
-      let oDiv = document.createElement("div")
-      oDiv.className = "shake-horizontal"
-      oDiv.innerText = msg
-      errorMsg.innerHTML = ""
-      errorMsg.appendChild(oDiv)
-    }
+      let errorMsg = document.getElementsByClassName("error-msg")[0];
+      let oDiv = document.createElement("div");
+      oDiv.className = "shake-horizontal";
+      oDiv.innerText = msg;
+      errorMsg.innerHTML = "";
+      errorMsg.appendChild(oDiv);
+    },
+    getdefaultroute(subMenus) {
+      let fmenu = subMenus[0];
+      if (fmenu.subMenus) {
+        return [fmenu.url, fmenu.subMenus[0].url];
+      } else {
+        return [fmenu.url];
+      }
+    },
   },
   destroyed() {
     document.onkeydown = null;

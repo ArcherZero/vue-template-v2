@@ -21,7 +21,13 @@ const routes = [
     meta: {
       title: '登录'
     }
-  }
+  },
+  {
+    path: '*',
+    name: 'nofind',
+    component: () => import( "../pages/404.vue"),
+
+},
 ]
 
 const router = new VueRouter({
