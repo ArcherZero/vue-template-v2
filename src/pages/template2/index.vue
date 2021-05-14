@@ -1,15 +1,95 @@
 <template>
-  <div>凑数的模板页面</div>
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header">
+            <span>文件上传</span>
+          </div>
+          <div>
+            <UploadFile
+              @uploadSuccess="uploadSuccess"
+              @uploadRemove="uploadRemove"
+            ></UploadFile>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header">
+            <span>拖拽文件上传</span>
+          </div>
+          <div>
+            <UploadFileDrag
+              @uploadSuccess="uploadSuccess"
+              @uploadRemove="uploadRemove"
+            ></UploadFileDrag>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header">
+            <span>图片上传(单选)</span>
+          </div>
+          <div>
+            <UploadImg
+              @uploadSuccess="uploadSuccess"
+              @uploadRemove="uploadRemove"
+              :imgUrl="imgUrl"
+            ></UploadImg>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header">
+            <span>图片上传(多选)</span>
+          </div>
+          <div>
+            <UploadImgs
+              @uploadSuccess="uploadSuccess"
+              @uploadRemove="uploadRemove"
+            ></UploadImgs>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
+import UploadFile from "@/components/UploadFile/UploadFile.vue";
+import UploadImg from "@/components/UploadImg/UploadImg.vue";
+import UploadFileDrag from "@/components/UploadFileDrag/UploadFileDrag.vue";
+import UploadImgs from "@/components/UploadImgs/UploadImgs.vue";
+
 export default {
   name: "template2",
-  components: {},
-  data() {
-    return {};
+  components: {
+    UploadFile,
+    UploadImg,
+    UploadFileDrag,
+    UploadImgs,
   },
-  methods: {},
-  created() {},
+  data() {
+    return {
+      imgUrl: "",
+    };
+  },
+  mounted() {
+    this.imgUrl =
+      "http://192.168.30.22:81/api-file/statics/2021/05/14/c5385bff35125d76b545eb9b3eaabff0.png";
+  },
+  methods: {
+    uploadSuccess(res, file, fileList) {
+      console.log(fileList);
+    },
+    uploadRemove(fileList) {
+      console.log(fileList);
+    },
+  },
 };
 </script>

@@ -37,7 +37,6 @@
           </el-dropdown>
         </div>
       </el-header>
-
       <el-main class="main-wrap">
         <div class="page-wrap" v-loading="loading">
           <router-view class="content" />

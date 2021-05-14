@@ -108,8 +108,7 @@
 </template>
 
 <script>
-import NavSubmenu from "./NavSubmenu.vue";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "navigation",
@@ -118,7 +117,6 @@ export default {
   },
   data() {
     return {
-      //defaultActive: "/",
       navLogo: "",
       menuList: [],
     };
@@ -129,9 +127,7 @@ export default {
       return "";
     },
   },
-  components: {
-    NavSubmenu,
-  },
+  components: {},
   mounted() {
     this.getMenuList();
   },
@@ -152,14 +148,9 @@ export default {
     },
     hasActive(url) {
       let arr = this.activePath.filter((item, index) => {
-        return item === url;
+        return url && item === url;
       });
       return arr.length > 0;
-    },
-  },
-  watch: {
-    $route(to, from) {
-      //this.defaultActive = this.$route.path;
     },
   },
 };
