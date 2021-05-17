@@ -7,6 +7,7 @@
       :http-request="uploads"
       :show-file-list="false"
       :on-exceed="handleExceed"
+      :accept="accept"
       ref="upload"
     >
       <div slot="trigger" class="uploadImg-list" v-if="imageUrl">
@@ -19,7 +20,6 @@
             >
               <i class="el-icon-zoom-in"></i>
             </span>
-
             <span class="el-upload-list-delete" @click.stop="handleRemove()">
               <i class="el-icon-delete"></i>
             </span>
@@ -28,6 +28,19 @@
       </div>
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
+    <!-- 图片预览方案一
+      <el-dialog :visible.sync="dialogVisible">
+      <img class="imageUrl" :src="imageUrl" alt="" />
+    </el-dialog>
+    -->
+    <!-- 图片预览方案二 这里用静态图片，防止初始化时加载失败 -->
+    <el-image
+      :id="'elImageUrl' + uploadKey"
+      style="width: 0; height: 0;"
+      :src="require('../../assets/img/login_user.png')"
+      :preview-src-list="[imageUrl]"
+    >
+    </el-image>
   </div>
 </template>
 <script>
@@ -39,13 +52,13 @@ export default {
     return {
       fileList: [],
       imageUrl: null,
-      disabled: false,
       limit: 1,
+      accept: ".jpg,.jpeg,.png,.gif,.bmp,.pdf,.JPG,.JPEG,.PBG,.GIF,.BMP,.PDF",
+      dialogVisible: false,
     };
   },
   watch: {
     imgUrl(v) {
-      console.log(v);
       this.imageUrl = v;
       this.fileList.push(v);
     },
@@ -54,6 +67,11 @@ export default {
     imgUrl: {
       required: false,
       type: String,
+    },
+    // 唯一标识符,如果一个页面使用了多个自定义上传组件就必须写
+    uploadKey: {
+      required: false,
+      default: "",
     },
   },
   methods: {
@@ -70,7 +88,12 @@ export default {
       });
     },
     handlePictureCardPreview(file) {
-      window.open(this.imageUrl);
+      let d = document.getElementById("elImageUrl" + this.uploadKey);
+      d.click();
+      // this.dialogVisible = true;
+
+      // 图片预览方案三
+      // window.open(this.imageUrl);
     },
     handleExceed(files, fileList) {
       this.$refs.upload.clearFiles();
@@ -80,6 +103,7 @@ export default {
     },
     async uploads(obj) {
       let file = obj.file;
+      console.log(file);
       compresstypeB(file, async (res) => {
         let filename = new Date().getTime() + "." + res.type.split("/")[1];
         const files = new window.File([res], filename, {
@@ -136,6 +160,11 @@ export default {
     i:hover {
       color: #409eff;
     }
+  }
+
+  .imageUrl {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 

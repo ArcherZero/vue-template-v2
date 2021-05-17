@@ -10,10 +10,24 @@
       :on-preview="handlePictureCardPreview"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
+      :accept="accept"
       ref="upload"
     >
       <i class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
+    <!-- 图片预览方案一
+      <el-dialog :visible.sync="dialogVisible">
+      <img class="imageUrl" :src="imageUrl" alt="" />
+    </el-dialog>
+    -->
+    <!-- 图片预览方案二 这里用静态图片，防止初始化时加载失败 -->
+    <el-image
+      :id="'elImageUrl' + uploadKey"
+      style="width: 0; height: 0;"
+      :src="require('../../assets/img/login_user.png')"
+      :preview-src-list="[imageUrl]"
+    >
+    </el-image>
   </div>
 </template>
 <script>
@@ -27,22 +41,36 @@ export default {
       imageUrl: null,
       disabled: false,
       limit: 10,
+      accept: ".jpg,.jpeg,.png,.gif,.bmp,.pdf,.JPG,.JPEG,.PBG,.GIF,.BMP,.PDF",
+      dialogVisible: false,
     };
+  },
+  props: {
+    // 唯一标识符,如果一个页面使用了多个自定义上传组件就必须写
+    uploadKey: {
+      required: false,
+      default: "",
+    },
   },
   methods: {
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
     handleRemove(file) {
-
-      this.fileList.forEach((item,index)=>{
-        if(item.name===file.name) this.fileList.splice(index,1)
-      })
-       console.log(file, this.fileList);
+      this.fileList.forEach((item, index) => {
+        if (item.name === file.name) this.fileList.splice(index, 1);
+      });
+      console.log(file, this.fileList);
       this.$emit("uploadRemove", this.fileList);
     },
     handlePictureCardPreview(file) {
-      window.open(file.url);
+      this.imageUrl = file.url;
+      //this.dialogVisible = true;
+      let d = document.getElementById("elImageUrl" + this.uploadKey);
+      d.click();
+
+      // 图片预览方案三
+      //window.open(file.url);
     },
     handleExceed(files, fileList) {
       this.$message.warning(
@@ -97,6 +125,11 @@ export default {
   .uploadImg {
     width: 100%;
     height: 100%;
+  }
+
+  .imageUrl {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 </style>

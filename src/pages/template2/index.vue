@@ -37,6 +37,7 @@
               @uploadSuccess="uploadSuccess"
               @uploadRemove="uploadRemove"
               :imgUrl="imgUrl"
+              :uploadKey="1"
             ></UploadImg>
           </div>
         </el-card>
@@ -52,6 +53,7 @@
             <UploadImgs
               @uploadSuccess="uploadSuccess"
               @uploadRemove="uploadRemove"
+              :uploadKey="2"
             ></UploadImgs>
           </div>
         </el-card>

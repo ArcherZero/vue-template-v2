@@ -53,7 +53,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    Navgation
+    Navgation,
   },
   data () {
     return {
