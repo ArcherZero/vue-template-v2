@@ -63,10 +63,10 @@
 </template>
 
 <script>
-import UploadFile from "@/components/UploadFile/UploadFile.vue";
-import UploadImg from "@/components/UploadImg/UploadImg.vue";
-import UploadFileDrag from "@/components/UploadFileDrag/UploadFileDrag.vue";
-import UploadImgs from "@/components/UploadImgs/UploadImgs.vue";
+import UploadFile from "@/components/Upload/UploadFile.vue";
+import UploadImg from "@/components/Upload/UploadImg.vue";
+import UploadFileDrag from "@/components/Upload/UploadFileDrag.vue";
+import UploadImgs from "@/components/Upload/UploadImgs.vue";
 
 export default {
   name: "template2",
