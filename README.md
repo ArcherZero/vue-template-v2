@@ -8,7 +8,7 @@
 
 ## 菜单
 
-开发阶段菜单可在src/components/Navigation/config中配置，开发完成后可根据config在jeecp中配置
+直接在jeecp中配置
 
 ## 关于分支
 
