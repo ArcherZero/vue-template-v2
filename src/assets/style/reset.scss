@@ -360,10 +360,17 @@ img {
   max-width: 600px;
 }
 
-.el-pagination {
+.el-range-separator {
+  min-width: 20px;
+}
+
+.el-pagination,
+.el-pagination.is-background {
+  display: flex;
   margin-top: 10px;
 }
 
-.el-range-separator {
-  min-width: 20px;
+.el-pagination .btn-prev,
+.el-pagination.is-background .btn-prev {
+  margin-left: auto;
 }

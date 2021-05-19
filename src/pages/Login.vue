@@ -345,6 +345,11 @@ export default {
         text-align: center;
       }
     }
+
+    .usename::placeholder,
+    .password::placeholder {
+      color: #fff;
+    }
   }
 }
 </style>

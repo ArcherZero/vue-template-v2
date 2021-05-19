@@ -9548,6 +9548,11 @@ yorkie@^2.0.0:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
+zero-directive@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/zero-directive/-/zero-directive-1.0.1.tgz#eb41ab4ba63834e61a68881f7938c47c18047e6b"
+  integrity sha512-SElS9BoTv3JJPE1vJqt3WK62VdiRZp0uyND29K+sdgGQgnrkLlZi72YJ4YQCJeAU66a2r27imMRCiwk0dZrjYQ==
+
 zwitch@^1.0.0:
   version "1.0.5"
   resolved "https://npm.code.hzmantu.com/zwitch/-/zwitch-1.0.5.tgz#d11d7381ffed16b742f6af7b3f223d5cd9fe9920"

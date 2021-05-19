@@ -73,6 +73,11 @@ export default {
         pageSize: size || this.pageSize,
         ...this.param
       }
+      if (param.complainDate && param.complainDate.length) {
+        param.start = param.complainDate[0]
+        param.end = param.complainDate[1]
+        delete param.complainDate
+      }
       console.log(param)
       // 调用获取列表数据接口
       // const res = await TaxiAction.selectPage(param)
