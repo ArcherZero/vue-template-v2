@@ -31,9 +31,8 @@ export default {
   },
   methods: {
     handleRemove(file, fileList) {
-      console.log(file, fileList);
-       this.fileList=[];
-       this.$emit("uploadRemove", this.fileList);
+      this.fileList=[];
+      this.$emit("uploadRemove", this.fileList);
     },
     handlePreview(file) {
       console.log(file);

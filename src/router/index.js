@@ -8,13 +8,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    component: Layout,
-    children: [
-      ...template
-    ]
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import( "../pages/Login.vue"),
@@ -23,11 +16,17 @@ const routes = [
     }
   },
   {
-    path: '*',
-    name: 'nofind',
-    component: () => import( "../pages/404.vue"),
-
-},
+    path: '/',
+    component: Layout,
+    children: [
+      ...template,
+      {
+        path: '*',
+        name: 'nofind',
+        component: () => import( "../pages/404.vue"),
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({

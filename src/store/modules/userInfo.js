@@ -4,7 +4,7 @@ const state = {
   deptInfo: null,
   menu: [],
   defaultActive: '',
-  activePath: [], //选中的导航菜单及其父项
+  activePath: [], // 选中的导航菜单及其父项
 }
 
 const getters = {
@@ -26,6 +26,23 @@ const mutations = {
     state.deptInfo = obj
   },
   setMenu(state, obj) {
+    console.log(process.env.VUE_APP_SERVER_MODE)
+    if (process.env.VUE_APP_SERVER_MODE === 'dev') {
+      obj.push({
+        name: '业务组件库',
+        css: "iconfont icon-shezhi",
+        url: '/component',
+        id: 9999,
+        subMenus: [
+          {
+            name: '上传',
+            // css: "iconfont icon-shezhi",
+            id: 9998,
+            url: '/component/upload'
+          }
+        ]
+      })
+    }
     state.menu = obj
   },
   setDefaultActive(state, v) {

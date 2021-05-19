@@ -13,15 +13,15 @@ const templateRouter = [
     }
   },
   {
-    path: "/template2/list",
-    name: "template2",
+    path: "/component/upload",
+    name: "component",
     component: () =>
-      import(/* webpackChunkName: "template" */ "@/pages/template2/index.vue"),
+      import(/* webpackChunkName: "template" */ "@/pages/component/upload.vue"),
     meta: {
-      title: '模板列表1',
+      title: '上传',
       breadcrumb: [
-        { title: '模板列表1', path: null },
-        { title: '模板列表1-2', path: null },
+        { title: '业务组件', path: null },
+        { title: '上传', path: null },
       ]
     }
   },

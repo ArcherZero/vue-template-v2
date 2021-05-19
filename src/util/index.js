@@ -161,26 +161,26 @@ function compresstypeB(fileObj, callback) {
         // if (Orientation && Orientation !== 1 && Orientation !== 0 && isRotate) {
         if (Orientation && Orientation !== 1 && Orientation !== 0) {
           switch (Orientation) {
-            case 6: // 旋转90度
-              console.log(90);
-              canvas.width = imgHeight;
-              canvas.height = imgWidth;
-              ctx.rotate(Math.PI / 2);
-              // (0,-imgHeight) 从旋转原理图那里获得的起始点
-              ctx.drawImage(this, 0, -imgHeight, imgWidth, imgHeight);
-              break;
-            case 3: // 旋转180度
-              console.log(180);
-              ctx.rotate(Math.PI);
-              ctx.drawImage(this, -imgWidth, -imgHeight, imgWidth, imgHeight);
-              break;
-            case 8: // 旋转-90度
-              console.log(-90);
-              canvas.width = imgHeight;
-              canvas.height = imgWidth;
-              ctx.rotate((3 * Math.PI) / 2);
-              ctx.drawImage(this, -imgWidth, 0, imgWidth, imgHeight);
-              break;
+          case 6: // 旋转90度
+            console.log(90);
+            canvas.width = imgHeight;
+            canvas.height = imgWidth;
+            ctx.rotate(Math.PI / 2);
+            // (0,-imgHeight) 从旋转原理图那里获得的起始点
+            ctx.drawImage(this, 0, -imgHeight, imgWidth, imgHeight);
+            break;
+          case 3: // 旋转180度
+            console.log(180);
+            ctx.rotate(Math.PI);
+            ctx.drawImage(this, -imgWidth, -imgHeight, imgWidth, imgHeight);
+            break;
+          case 8: // 旋转-90度
+            console.log(-90);
+            canvas.width = imgHeight;
+            canvas.height = imgWidth;
+            ctx.rotate((3 * Math.PI) / 2);
+            ctx.drawImage(this, -imgWidth, 0, imgWidth, imgHeight);
+            break;
           }
         } else {
           console.log(Orientation);

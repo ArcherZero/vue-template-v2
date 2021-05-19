@@ -15,44 +15,46 @@
           background-color="#fff"
           :collapse-transition="false"
         >
-          <el-submenu
-            v-for="(item, index) in menuList"
-            :key="index"
-            :class="
-              hasActive(item.url) ? 'first_submenu active' : 'first_submenu'
-            "
-            :index="item.url"
-            v-if="item.isleaf"
-          >
-            <template slot="title">
+          <template v-for="(item, index) in menuList">
+            <el-submenu
+              :key="index"
+              :class="
+                hasActive(item.url) ? 'first_submenu active' : 'first_submenu'
+              "
+              :index="item.url"
+              v-if="item.isleaf"
+            >
+              <template slot="title">
+                <i v-if="item.css" :class="[item.css, 'menuicon']"></i>
+                <span slot="title" class="submenu_name">{{ item.name }}</span>
+              </template>
+              <el-menu-item
+                :index="item2.url"
+                v-for="(item2, index2) in item.subMenus"
+                :key="index2"
+                :class="
+                  hasActive(item2.url)
+                    ? 'second_submenu active'
+                    : 'second_submenu'
+                "
+              >
+                <i v-if="item2.css" :class="[item2.css, 'menuicon']"></i>
+                <div class="submenu_circle"></div>
+                <span slot="title" class="submenu_name">{{ item2.name }}</span>
+              </el-menu-item>
+            </el-submenu>
+            <el-menu-item
+              :key="index"
+              :class="
+                hasActive(item.url) ? 'first_submenu active' : 'first_submenu'
+              "
+              :index="item.url"
+              v-else
+            >
               <i v-if="item.css" :class="[item.css, 'menuicon']"></i>
               <span slot="title" class="submenu_name">{{ item.name }}</span>
-            </template>
-            <el-menu-item
-              :index="item2.url"
-              v-for="(item2, index2) in item.subMenus"
-              :key="index2"
-              :class="
-                hasActive(item2.url)
-                  ? 'second_submenu active'
-                  : 'second_submenu'
-              "
-            >
-              <i v-if="item2.css" :class="[item2.css, 'menuicon']"></i>
-              <div class="submenu_circle"></div>
-              <span slot="title" class="submenu_name">{{ item2.name }}</span>
             </el-menu-item>
-          </el-submenu>
-          <el-menu-item
-            :class="
-              hasActive(item.url) ? 'first_submenu active' : 'first_submenu'
-            "
-            :index="item.url"
-            v-else
-          >
-            <i v-if="item.css" :class="[item.css, 'menuicon']"></i>
-            <span slot="title" class="submenu_name">{{ item.name }}</span>
-          </el-menu-item>
+          </template>
 
           <!--
           <div v-for="(item, index) in menuList" :key="index">
@@ -126,6 +128,9 @@ export default {
     userName() {
       return "";
     },
+    menus () {
+      return this.menuList.filter(item => item.isleaf)
+    }
   },
   components: {},
   mounted() {

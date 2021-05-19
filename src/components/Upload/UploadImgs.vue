@@ -65,12 +65,12 @@ export default {
     },
     handlePictureCardPreview(file) {
       this.imageUrl = file.url;
-      //this.dialogVisible = true;
+      // sthis.dialogVisible = true;
       let d = document.getElementById("elImageUrl" + this.uploadKey);
       d.click();
 
       // 图片预览方案三
-      //window.open(file.url);
+      // window.open(file.url);
     },
     handleExceed(files, fileList) {
       this.$message.warning(
