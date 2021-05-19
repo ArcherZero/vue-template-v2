@@ -43,7 +43,6 @@ axios.interceptors.response.use(
       case 401:
         if (!location.hash.includes('login')) {
           router.push("/login")
-          window.localStorage.clear()
           window.sessionStorage.clear()
           Message.error("权限已过期请重新登录")
           store.state.userInfo.userInfo = null

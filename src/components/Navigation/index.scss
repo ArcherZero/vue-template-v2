@@ -76,23 +76,27 @@
 
   .first_submenu.active {
     & > .el-submenu__title {
-      color: #fff !important;
-      background-color: #3b82f6 !important;
+      color: #3b82f6 !important;
     }
 
     .el-submenu__title i {
-      color: #fff;
+      color: #3b82f6;
     }
 
     .menuicon {
-      color: #fff;
+      color: #3b82f6;
     }
+  }
+
+  .el-menu-item.second_submenu.active {
+    color: #fff !important;
+    background-color: #3b82f6 !important;
   }
 
   .second_submenu.active {
     .submenu_circle {
-      background-color: #3b82f6;
-      border: 1px solid #3b82f6;
+      background-color: #fff;
+      border: 1px solid #fff;
     }
   }
 

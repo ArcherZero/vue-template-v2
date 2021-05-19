@@ -117,10 +117,6 @@ export default {
   cursor: pointer;
 }
 
-.el-aside {
-  // background: linear-gradient(360deg, rgb(29, 106, 190) 0%, rgb(44, 125, 199) 100%);
-}
-
 .el-footer {
   background-color: #3e3d44;
 }
