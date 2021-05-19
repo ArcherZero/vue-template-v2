@@ -50,9 +50,7 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        id: 1
-      }],
+      tableData:[],
       param: {},
       page: 1,
       pageSize: 10,

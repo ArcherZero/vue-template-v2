@@ -1,14 +1,14 @@
 <template>
   <el-container class="page-layout-wrap">
-    <el-aside width="250px" class="aside-wrap">
+    <el-aside :width="isHide?'auto':'240px'"  class="aside-wrap">
       <navgation :isHide="isHide"/>
     </el-aside>
     <el-container>
       <el-header class="header">
         <!-- 不需要收起菜单则注释下方节点 -->
-        <!-- <div class="icon-wrapper" @click="isHide = !isHide">
+         <div class="icon-wrapper" @click="isHide = !isHide">
           <el-icon :class="isHide ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></el-icon>
-        </div> -->
+        </div>
         <el-breadcrumb separator="/">
           <template v-for="item in breadList">
             <el-breadcrumb-item
@@ -37,7 +37,6 @@
           </el-dropdown>
         </div>
       </el-header>
-
       <el-main class="main-wrap">
         <div class="page-wrap" v-loading="loading">
           <router-view class="content" />
@@ -54,7 +53,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    Navgation
+    Navgation,
   },
   data () {
     return {
@@ -92,8 +91,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(240, 242, 245);
-  box-shadow: 0 5px 5px rgb(211, 211, 211);
+  background: rgb(255, 255, 255);
+  //box-shadow: 0 5px 5px rgb(211, 211, 211);
 
   .user {
     flex: 1;
@@ -119,7 +118,7 @@ export default {
 }
 
 .el-aside {
-  background: linear-gradient(360deg, rgb(29, 106, 190) 0%, rgb(44, 125, 199) 100%);
+  // background: linear-gradient(360deg, rgb(29, 106, 190) 0%, rgb(44, 125, 199) 100%);
 }
 
 .el-footer {
