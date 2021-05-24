@@ -224,7 +224,7 @@ export default {
       console.log(menu);
 
       if (!menu.length) return this.$message.warning("该账号暂无菜单权限");
-      this.setMenu(menu[0].subMenus); // 存储菜单数据
+      this.setMenu(menu); // 存储菜单数据
       let defaultpath = this.getdefaultroute(menu[0].subMenus);
       this.$router.push(defaultpath[defaultpath.length - 1]); // 跳转到默认菜单
       this.setDefaultActive(defaultpath[defaultpath.length - 1]); // 存储到默认选择的菜单

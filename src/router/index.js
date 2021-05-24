@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 import Layout from '@/pages/layout'
 import store from '@/store'
 import template from './modules/template'
+import system from './modules/system'
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ const routes = [
     component: Layout,
     children: [
       ...template,
+      ...system,
       {
         path: '*',
         name: 'nofind',

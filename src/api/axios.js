@@ -35,6 +35,10 @@ axios.interceptors.response.use(
       store.commit('SET_LOADING', false)
     }, 200)
 
+    if (error.response?.data?.msg || error.response?.data?.message) {
+      Message.error(error.response.data.msg || error.response?.data?.message)
+    }
+
     if (error.response) {
       switch (error.response.status) {
       case 404:
@@ -53,10 +57,6 @@ axios.interceptors.response.use(
           Message.error('接口参数错误')
         }
         break
-      default:
-        if (error.response?.data?.msg || error.response?.data?.message) {
-          Message.error(error.response.data.msg || error.response?.data?.message)
-        }
       }
     }
     return Promise.reject(error)

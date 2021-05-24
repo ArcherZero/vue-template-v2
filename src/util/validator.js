@@ -1,4 +1,4 @@
-import * as util from './util'
+import * as util from './index'
 
 function _validator (customValid, rule, value, callback) {
   if (rule.required && util.isBlank(value)) callback(new Error(rule.messageNull))

@@ -18,9 +18,8 @@ class ApiResponse {
   }
 
   __handleResponse () {
-
     // 部分接口不以标准结构返回 统一成标准结构
-    if (+this.response.code === 0 || this.response.code) {
+    if ((+this.response.code === 0 || this.response.code) && !this.response.totalSize) {
       // getUserInfo 接口返回有code字段但是没有data字段
       this.data = this.response.data || this.response
       this.message = this.response.message

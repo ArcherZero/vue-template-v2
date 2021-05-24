@@ -13,6 +13,19 @@ const templateRouter = [
     }
   },
   {
+    path: "/template/new",
+    name: "templateNew",
+    component: () =>
+      import(/* webpackChunkName: "template" */ "@/pages/template/new.vue"),
+    meta: {
+      title: '模板新增',
+      breadcrumb: [
+        { title: '模板列表1', path: null },
+        { title: '模板新增', path: null },
+      ]
+    }
+  },
+  {
     path: "/component/upload",
     name: "component",
     component: () =>
@@ -24,7 +37,7 @@ const templateRouter = [
         { title: '上传', path: null },
       ]
     }
-  },
+  }
 ]
 
 export default templateRouter

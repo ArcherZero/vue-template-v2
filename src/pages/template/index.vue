@@ -6,22 +6,20 @@
       <SelectRange v-model="param.complainDate" label="时间范围"></SelectRange>
       <SelectSearch v-model="param.status" label="运营状态" :options="TAXI_STATUS_MAP" />
     </SearchBar>
-    <el-table :data="tableData" stripe style="width: 100%;">
-      <el-table-column prop="no" label="车牌号码"></el-table-column>
-      <el-table-column prop="companyName" label="公司名称" width="300"></el-table-column>
-      <el-table-column prop="transCardNo" label="道路运输证号"></el-table-column>
-      <el-table-column prop="transValidStart" label="有效期起"></el-table-column>
-      <el-table-column prop="transValidEnd" label="有效期止"></el-table-column>
-      <el-table-column prop="transValidEnd" label="运营状态">
-        <template slot-scope="{ row }">{{ TAXI_STATUS_MAP[row.status] }}</template>
-      </el-table-column>
+    <div class="flex-right">
+      <el-button type="primary" size="medium" @click="$router.push('./new')">新增</el-button>
+    </div>
+    <MTable :tableData='tableData' :infoData='infoData'>
+      <template #status="{ data }">
+        <p>{{ TAXI_STATUS_MAP[data.status] }}</p>
+      </template>
       <el-table-column prop="changeWorkTime" label="操作" width="350px">
         <template slot-scope="{ row }">
           <el-link class="mr-10" type="primary" @click="goDetail(row.id)">详情</el-link>
           <el-link type="danger">删除</el-link>
         </template>
       </el-table-column>
-    </el-table>
+    </MTable>
     <el-pagination
       background
       :current-page.sync="page"
@@ -39,6 +37,7 @@ import SearchBar from '@/components/SearchBar'
 import SingleSearch from '@/components/SearchBar/SingleSearch'
 import SelectSearch from '@/components/SearchBar/SelectSearch'
 import SelectRange from '@/components/SearchBar/SelectRange'
+import MTable from '@/components/MTable'
 
 export default {
   name: 'companyCarManage',
@@ -46,11 +45,20 @@ export default {
     SearchBar,
     SingleSearch,
     SelectSearch,
-    SelectRange
+    SelectRange,
+    MTable
   },
   data () {
     return {
       tableData: [{ id: 1 }],
+      infoData: [
+        {label: '车牌号码', key: 'no', min: '100px'},
+        {label: '企业名称', key: 'companyName', min: '150px'},
+        {label: '道路运输证号', key: 'transCardNo', min: '120px'},
+        {label: '有效期起', key: 'transValidStart', min: '100px'},
+        {label: '有效期止', key: 'transValidEnd', min: '100px'},
+        {label: '运营状态', key: 'status'}
+      ],
       param: {},
       page: 1,
       pageSize: 10,

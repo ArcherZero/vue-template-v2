@@ -12,6 +12,7 @@ const getters = {
   menu: state => state.menu,
   defaultActive: state => state.defaultActive,
   activePath: state => state.activePath,
+  nickname: state => state.userInfoObj.user?.nickname
 }
 
 // 申明同步方法
@@ -39,6 +40,32 @@ const mutations = {
             // css: "iconfont icon-shezhi",
             id: 9998,
             url: '/component/upload'
+          }
+        ]
+      })
+      obj.push({
+        name: '系统管理',
+        css: "iconfont icon-shezhi",
+        url: '/system',
+        id: 8888,
+        subMenus: [
+          {
+            name: '角色管理',
+            // css: "iconfont icon-shezhi",
+            id: 9998,
+            url: '/system/role'
+          },
+          {
+            name: '菜单管理',
+            // css: "iconfont icon-shezhi",
+            id: 9997,
+            url: '/system/menu'
+          },
+          {
+            name: '账号管理',
+            // css: "iconfont icon-shezhi",
+            id: 9996,
+            url: '/system/account'
           }
         ]
       })

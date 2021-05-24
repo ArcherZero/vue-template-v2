@@ -21,6 +21,19 @@ function IsPC() {
   return flag;
 }
 
+/**
+ * @description 判断字符串或数字为空，可以为0
+ * @param {String, Number} value
+ */
+function isBlank (value) {
+  try {
+    const _value = value.toString()
+    return !_value
+  } catch (error) {
+    return true
+  }
+}
+
 // base64转blob
 function convertBase64UrlToBlob(urlData) {
   const bytes = window.atob(urlData.split(",")[1]); // 去掉url的头，并转换为byte
@@ -204,4 +217,5 @@ export {
   encryptByDES,
   filterMenu,
   compresstypeB,
-};
+  isBlank
+}

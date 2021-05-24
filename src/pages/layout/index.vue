@@ -29,8 +29,8 @@
           </template>
         </el-breadcrumb>
         <div class="user">
-          <el-dropdown>
-            <span><i class="el-icon-setting" style="margin-right: 15px;"></i>王小虎</span>
+          <el-dropdown style="cursor: pointer;">
+            <span><i class="el-icon-setting" style="margin-right: 15px;"></i>{{ nickname }}</span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
@@ -61,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loading', 'token']),
+    ...mapGetters(['loading', 'token', 'nickname']),
     breadList () {
       return this.$route.meta.breadcrumb
     }
