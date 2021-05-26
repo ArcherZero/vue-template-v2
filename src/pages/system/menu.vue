@@ -48,17 +48,17 @@
       layout="total, prev, pager, next"
       :total="total">
     </el-pagination>
-    <MenuConfigDialog ref="menu" @success="search"/>
+    <MenuEditDialog ref="menu" @success="search"/>
   </div>
 </template>
 
 <script>
 import * as SystemAction from '@/api/system'
-import MenuConfigDialog from './menuConfigDialog'
+import MenuEditDialog from './menuEditDialog'
 
 export default {
   components: {
-    MenuConfigDialog
+    MenuEditDialog
   },
   data () {
     return {

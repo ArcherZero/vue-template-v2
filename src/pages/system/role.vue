@@ -11,7 +11,7 @@
       <el-table-column prop="changeWorkTime" label="操作" width="350px">
         <template slot-scope="{ row }">
           <el-link class="mr-10" type="primary">权限设置</el-link>
-          <el-link class="mr-10" type="warning">菜单设置</el-link>
+          <el-link class="mr-10" type="warning" @click="menuConfig(row)">菜单设置</el-link>
           <el-link class="mr-10" type="primary" @click="edit(row)">编辑</el-link>
           <el-link type="danger" @click="remove(row.id)">删除</el-link>
         </template>
@@ -26,7 +26,8 @@
       layout="total, prev, pager, next"
       :total="total">
     </el-pagination>
-    <RoleConfigDialog ref="role" @success="search"/>
+    <RoleEditDialog ref="role" @success="search"/>
+    <MenuConfigDialog ref="menu" />
   </div>
 </template>
 
@@ -35,7 +36,9 @@ import SearchBar from '@/components/SearchBar'
 import SingleSearch from '@/components/SearchBar/SingleSearch'
 import MTable from '@/components/MTable'
 import * as SystemAction from '@/api/system'
-import RoleConfigDialog from './roleConfigDialog'
+import RoleEditDialog from './roleEditDialog'
+import MenuConfigDialog from './menuConfigDialog'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'role',
@@ -43,7 +46,8 @@ export default {
     SearchBar,
     SingleSearch,
     MTable,
-    RoleConfigDialog
+    RoleEditDialog,
+    MenuConfigDialog
   },
   data () {
     return {
@@ -66,6 +70,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getAllMenu']),
     async search (page = 1, size) {
       // size change、按条件搜索时重置页码为1
       if (page === 1) this.page = 1
@@ -92,10 +97,14 @@ export default {
     },
     edit (row) {
       this.$refs.role.show(row)
+    },
+    menuConfig (row) {
+      this.$refs.menu.show(row)
     }
   },
   created () {
     this.search()
+    this.getAllMenu()
   }
 }
 </script>

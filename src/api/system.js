@@ -31,6 +31,11 @@ export function menus (data) {
   return axios.get(apiRouter + '/menus/findAlls', param)
 }
 
+// 获取所有菜单
+export function getAllMenus (data) {
+  return axios.get(apiRouter + '/menus/findAlls', data)
+}
+
 // 新增菜单
 export function addMenu (data) {
   const param = {
@@ -43,6 +48,16 @@ export function addMenu (data) {
 // 删除菜单
 export function removeMenu (data) {
   return axios.delete(`${apiRouter}/menus/${data.id}`)
+}
+
+// 获取指定角色菜单
+export function getRoleMenu (data) {
+  return axios.get(`${apiRouter}/menus/${data.id}/menus`)
+}
+
+// 角色分配菜单
+export function grantedMenu (data) {
+  return axios.post(apiRouter + '/menus/granted', data)
 }
 
 // 账号列表

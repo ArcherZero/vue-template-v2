@@ -1,101 +1,158 @@
 <template>
   <el-dialog
+      @close="cancelSetting"
       class="setting"
-      title="菜单配置"
+      title="菜单设置"
       :visible.sync="visiable"
-      width="40%"
+      width="60%"
       :close-on-click-modal="false"
       :lock-scroll="true"
-      :before-close="handleClose"
     >
-      <div>
-        <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-          <el-form-item v-if="!menu.id" label="上级菜单" prop="code">
-            <el-input
-              v-model="form.parentName"
-              class="inp-full"
-              placeholder="请输入code"
-              readonly
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="菜单名称" prop="name">
-            <el-input v-model="form.name" class="inp-full" placeholder="请输入菜单名称"></el-input>
-          </el-form-item>
-          <el-form-item label="菜单URL" prop="url">
-            <el-input v-model="form.url" class="inp-full" placeholder="请输入code"></el-input>
-          </el-form-item>
-          <el-form-item label="菜单图标" prop="css">
-            <el-input v-model="form.css" class="inp-full" placeholder="请输入iconfont"></el-input>
-          </el-form-item>
-          <el-form-item label="排序号" prop="sort">
-            <el-input v-Int v-model="form.sort" class="inp-full" placeholder="请输入排序号"></el-input>
-          </el-form-item>
-        </el-form>
+      <div class="d-ctx" style="text-align: left;">
+        <div class="permission-wrap" v-for="item in allMenu" :key="item.id">
+          <el-checkbox
+            class="permission"
+            :key="item.id"
+            v-model="checkAll[item.id]"
+            :indeterminate="indeterminate[item.id]"
+            @change="val => checkAllChange(val, item.id, item.subMenus)"
+          >{{ item.name }}</el-checkbox>
+          <el-checkbox-group v-model="checkedMenu" @change="val => checkChange(val, item.id, item.subMenus)">
+            <el-checkbox
+              v-for="p in item.subMenus"
+              :label="p.id"
+              :key="p.id"
+            >{{p.name}}</el-checkbox>
+          </el-checkbox-group>
+        </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel" type="primary" class="warning">取 消</el-button>
-        <el-button @click="confirm" type="primary" class="bg">确定</el-button>
+        <el-button @click="cancelSetting" type="primary" size="mini" class="warning">取 消</el-button>
+        <el-button @click="confirm" type="primary" size="mini" class="bg">确定</el-button>
       </div>
     </el-dialog>
 </template>
 
 <script>
 import * as SystemAction from '@/api/system'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
       visiable: false,
-      form: {},
-      menu: {},
-      rules: {
-        name: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
-        url: [{ required: true, message: '请输入url', trigger: 'change' }],
-        css: [{ required: true, message: '请输入css', trigger: 'change' }],
-        sort: [{ required: true, message: '请输入sort', trigger: 'change' }],
-      }
+      checkedRecourse: [],
+      role: {},
+      checkAll: {},
+      indeterminate: {},
+      checkedMenu: []
     }
   },
+  computed: {
+    ...mapGetters(['allMenu'])
+  },
   methods: {
-    show (menu) {
-      this.menu = menu
-      if (menu && !menu.id) {
-        this.$set(this.form, 'parentName', menu.parentName)
-        this.form.parentId = menu.parentId
-      }
-
-      if (menu.id) {
-        this.$set(this.form, 'name', menu.name)
-        this.$set(this.form, 'url', menu.url)
-        this.$set(this.form, 'css', menu.css)
-        this.$set(this.form, 'sort', menu.sort)
-        this.form.id = menu.id
-      }
+    show (role) {
+      this.role = role
+      this.checkAll = {}
+      this.indeterminate = {}
+      this.checkedMenu = []
       this.visiable = true
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
+
+      this.getMenu()
     },
-    confirm () {
-      this.$refs.form.validate(async val => {
-        if (!val) return
-        const res = await SystemAction.addMenu(this.form)
-        if (!res) return
-        this.$message.success(`${this.form.id ? '编辑' : '新增'}成功！`)
-        this.$emit('success')
-        this.cancel()
-      })
+    cancelSetting() {
+      this.visiable = false
+      this.checkAll = {}
+      this.indeterminate = {}
+      this.checkedMenu = []
     },
-    cancel () {
-      this.form = {}
-      this.$refs.form.clearValidate()
+    // val为id数组
+    checkChange (val, id, subMenus) {
+      let includeNum = 0
+      if (subMenus.length === 0) {
+        this.checkAll[id] = val.includes(String(id))
+        this.$forceUpdate()
+        return
+      }
+      subMenus.forEach(item => {
+        if (val.includes(String(item.id))) {
+          includeNum = includeNum + 1
+        }
+      })
+      if (includeNum === subMenus.length) {
+        this.$set(this.checkAll, id, true)
+        this.$set(this.indeterminate, id, false)
+      } else if (includeNum > 0) {
+        this.$set(this.checkAll, id, false)
+        this.$set(this.indeterminate, id, true)
+      } else {
+        this.$set(this.checkAll, id, false)
+        this.$set(this.indeterminate, id, false)
+      }
+    },
+    // val为boolean
+    checkAllChange (val, id, subMenus) {
+      const subMenusIds = subMenus.map(item => item.id)
+      this.$set(this.indeterminate, id, false)
+      console.log(val, id)
+      if (subMenus.length === 0) {
+        this.$set(this.checkAll, id, val)
+        this.checkAll[id] = val
+        this.$forceUpdate()
+        return
+      }
+      if (val) {
+        subMenus.forEach(item => {
+          if (!this.checkedMenu.includes(item.id)) this.checkedMenu.push(item.id)
+        })
+      } else {
+        const result = []
+        this.checkedMenu.forEach(item => {
+          if (!subMenusIds.includes(item)) result.push(item)
+        })
+        this.checkedMenu = result
+      }
+    },
+    async confirm() {
+      const param = {
+        roleId: this.role.id,
+        menuIds: this.checkedMenu
+      }
+      for (let key in this.checkAll) {
+        if (this.checkAll[key] && !param.menuIds.includes(key)) param.menuIds.push(key)
+        if (!this.checkAll[key] && param.menuIds.includes(key)) {
+          param.menuIds.splice(param.menuIds.indexOf(key), 1)
+        }
+      }
+      const res = await SystemAction.grantedMenu(param)
+      if (!res) return
+      this.$message.success("角色菜单更新成功")
       this.visiable = false
     },
-    handleClose (done) {
-      this.form = {}
-      this.$refs.form.clearValidate()
-      done()
+    async getMenu () {
+      const res = await SystemAction.getRoleMenu({ id: this.role.id })
+      if (!res) return
+      const topMenu = res.find(item => item.clientId === 'evm-equipment' && item.pId === -1)
+      const checked = res.filter(item => !!item.checked)
+      this.checkedMenu = checked.map(item => {
+        return String(item.id)
+      })
+      this.checkedMenu.push(topMenu.id)
+      this.allMenu.forEach(item => {
+        this.checkChange(this.checkedMenu, +item.id, item.subMenus)
+      })
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.permission-wrap + .permission-wrap {
+  margin-top: 50px;
+}
+
+.permission {
+  margin-bottom: 10px;
+}
+</style>
