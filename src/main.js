@@ -10,7 +10,7 @@ import './util/filters'
 import './assets/font_2017068_jv12sw9izi8/iconfont.css';
 
 Vue.config.productionTip = false
-Vue.use(Element, { size: 'mini' })
+Vue.use(Element, { size: 'medium' })
 
 new Vue({
   router,

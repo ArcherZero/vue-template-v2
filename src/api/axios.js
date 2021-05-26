@@ -97,5 +97,8 @@ export default {
   },
   async delete (url, params) {
     return axios.delete(url, params)
+  },
+  async put (url, params) {
+    return axios.put(url, params)
   }
 }

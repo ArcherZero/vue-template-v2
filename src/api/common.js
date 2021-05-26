@@ -1,11 +1,12 @@
 import axios from './axios'
 import qs from 'qs'
+import store from '../store'
 
 // 获取token
 export function token(data) {
   const param = qs.stringify({
     ...data,
-    client_id: "webApp",
+    client_id: store.getters.client,
     client_secret: "webApp",
     grant_type: "password"
   })

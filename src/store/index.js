@@ -7,9 +7,14 @@ import common from './modules/common'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    client: 'webApp'
+  },
   mutations: {},
   actions: {},
+  getters: {
+    client: state => state.client
+  },
   modules: {
     userInfo,
     common
